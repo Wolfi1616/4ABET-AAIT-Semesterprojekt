@@ -1,19 +1,20 @@
-//$(document).ready(function() {
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $filter) {
     //DEKLARATIONEN
     $scope.inputData = {
         'datum' : new Date(),
-        'kind' : '',
-        //'aufstehzeit' : '',
-        'schlafzeit' : '20:00',
+        'name' : '',
+        'aufstehzeit' : '',
+        'schlafzeit' : '',
         'wachzeit' : '',
     };
+
+
+    $scope.mehrData = [];
     $scope.suche = '';
-    $scope.data = [
-        {'datum' : '19.01.2022', 'aufstehzeit' : '08', 'schlafzeit' : '20', 'kind' : 'Lena'},
-        {'datum' : '19.01.2022', 'aufstehzeit' : '08', 'schlafzeit' : '20', 'kind' : 'Isabella'},    
-    ]
+
+
+    // SELECT-OPTIONEN
     $scope.aufstehzeitInputDaten = [
         {'value' : '07.00', 'placeholder' : '07:00'},
         {'value' : '07.25', 'placeholder' : '07:15'},
@@ -25,104 +26,125 @@ app.controller('myCtrl', function($scope, $filter) {
         {'value' : '08.75', 'placeholder' : '08:45'},
         {'value' : '09.00', 'placeholder' : '09:00'},
     ]
+    $scope.schlafzeitInputDaten = [
+        {'value' : '18.00', 'placeholder' : '18:00'},
+        {'value' : '18.25', 'placeholder' : '18:15'},
+        {'value' : '18.50', 'placeholder' : '18:30'},
+        {'value' : '18.75', 'placeholder' : '18:45'},        
+        {'value' : '19.00', 'placeholder' : '19:00'},
+        {'value' : '19.25', 'placeholder' : '19:15'},
+        {'value' : '19.50', 'placeholder' : '19:30'},
+        {'value' : '19.75', 'placeholder' : '19:45'},
+        {'value' : '20.00', 'placeholder' : '20:00'},
+        {'value' : '20.25', 'placeholder' : '20:15'},
+        {'value' : '20.50', 'placeholder' : '20:30'},
+        {'value' : '20.75', 'placeholder' : '20:45'},
+        {'value' : '21.00', 'placeholder' : '21:00'},
+        {'value' : '21.25', 'placeholder' : '21:15'},
+        {'value' : '21.50', 'placeholder' : '21:30'},
+        {'value' : '21.75', 'placeholder' : '21:45'},
+        {'value' : '22.00', 'placeholder' : '22:00'},
+    ]
   
-    console.log($scope.inputData);
-    //DEBUG-FUNCTION
+ 
+
+
+
+
+    //DEBUG-FUNCTIONS
     $scope.debug = function() {
-        console.log($filter('date')($scope.inputData.datum, 'yyyy-MM-dd') );
+        console.log( $scope.mehrData );
     }
     $scope.testlog = function() {
         console.log($scope.data);
     }
 
-    //AJAX
+
+
+
+    // ALLE OBJEKTE BEIM SEITENAUFRUF LADEN:
     $(document).ready(function() {
+        $scope.query();
+        //console.log($scope.mehrData);
+       // setTimeout($scope.query, 3500);
+    });
+
+
+
+    //AJAX
+    //DATENBANKABFRAGE:
+    $scope.query = function() {
         $.ajax({
             url: 'db/query.php',
             type: 'POST',
             success: function(response) {
-                console.log("Success");
+               // console.log("Success");
+               // console.log(response);
+               $scope.mehrData = JSON.parse(response);
+               console.log($scope.mehrData);
+              // return JSON.parse(response);
+
+            },
+            error: function(response) {
+                console.log("Error");
                 console.log(response);
-                $("#responsecontainer").html(response);
+            }
+        });    
+    }
+
+
+
+
+    $scope.insert = function() {
+
+        // INPUT-VALIDIERUNG: Überprüft ob die [required] inputs ausgefüllt wurden!
+        var valid = true;
+
+        $('[required]').each(function() {
+            if( $(this).is(':invalid') ) valid = false;
+        });
+        if (!valid) {
+            alert('Bitte fülle alle Formularfelder aus!');
+            return;
+        };
+
+
+        // Wachzeit errechnen
+        $scope.inputData.wachzeit = parseFloat($scope.inputData.schlafzeit) - parseFloat($scope.inputData.aufstehzeit);
+        // Datum umrechnen bzw. ins richtige Format für die DB kriegen!
+        $scope.inputData.datum = $filter('date')($scope.inputData.datum, 'yyyy-MM-dd'),
+
+        $.ajax({
+            url: 'db/insert.php',
+            type: 'POST',
+            data: {
+                aufstehzeit : parseFloat($scope.inputData.aufstehzeit),
+                schlafzeit : parseFloat($scope.inputData.schlafzeit),
+                wachzeit : parseFloat($scope.inputData.wachzeit),
+                name : $scope.inputData.name,
+                datum : $scope.inputData.datum,
+            }, 
+            success: function(response) {
+                console.log("Success");
+                //console.log(response);
+                //console.log($scope.mehrData);
+                //Temporäre Inputdaten zurücksetzen!
+                $scope.inputData = {
+                    'datum' : new Date(),
+                    'name' : '',
+                    'aufstehzeit' : '',
+                    'schlafzeit' : '',
+                    'wachzeit' : '',
+                };
+                console.log($scope.inputData);
+
+                $scope.query();
+
             },
             error: function(response) {
                 console.log("Error");
                 console.log(response);
             }
         });
-    })
-
-
-
-
-        $scope.insert = function() {
-            // HIER PRÜFEN OB TEXT EINGEGEBEN WURDE
-            // Wachzeit errechnen
-            $scope.inputData.wachzeit = parseFloat($scope.inputData.schlafzeit) - parseFloat($scope.inputData.aufstehzeit);
-            // Datum umrechnen
-            $scope.inputData.datum = $filter('date')($scope.inputData.datum, 'yyyy-MM-dd'),
-            $.ajax({
-                url: 'db/insert.php',
-                type: 'POST',
-                data: {
-                    aufstehzeit : parseFloat($scope.inputData.aufstehzeit),
-                    schlafzeit : parseFloat($scope.inputData.schlafzeit),
-                    wachzeit : parseFloat($scope.inputData.wachzeit),
-                    kind : $scope.inputData.kind,
-                    datum : $scope.inputData.datum,
-                }, 
-                success: function(response) {
-                    console.log("Success");
-                    console.log(response);
-                    //Temporäre Inputdaten zurücksetzen!
-                    $scope.inputData = {
-                        'datum' : new Date(),
-                        'kind' : '',
-                        'aufstehzeit' : '07:00',
-                        'schlafzeit' : '20:00',
-                        'wachzeit' : '',
-                    };
-                    console.log($scope.inputData);
-                },
-                error: function(response) {
-                    console.log("Error");
-                    console.log(response);
-                }
-            });
-        };
-
-
-    // FUNCTIONS:
-    $scope.saveData = function() {
-        console.log($scope.inputData);
-        $scope.data.push($scope.inputData);
-        $scope.inputData = {};
-        console.log($scope.inputData);
-     };
-
-
-
-    //NAV-MENU (& TOGGLE SECTIONS)
-    $('section').css('display', 'none');
-    $('section').first().css('display', 'block');
-
-    var text = $('ul').html();
-    $('section > h2').each(function () {
-        text += '<li>' + $(this).text() + '</li>';
-    });
-    $('ul').html(text);
-
-
-    $('nav li').on('click', function() {
-        var text = $(this).text();
-        var section;
-        $('h2').each(function() {
-            section = $(this).parent();
-            if( $(this).text() == text) {
-                section.css('display', 'block' );
-            } else {
-                section.css('display', 'none');
-            }
-        })
-    });
+    };
 });

@@ -15,27 +15,28 @@ $mysqli = new mysqli($servername, $username, $password, $database);
 
 if ($mysqli->connect_error) {
     die('Connection failed: ' . $mysqli->connect_error);
-} else {
-    echo 'Connected successfully';
 }
 $query = '
 SELECT
  daten.aufstehzeit,
  daten.schlafzeit,
  daten.wachzeit,
- daten.datum
+ daten.datum,
+ kinder.name,
+ daten.id
 FROM daten
 LEFT JOIN kinder
 ON daten.kind = kinder.id
 ORDER BY
- daten.id ASC;
+daten.datum DESC
 ';
 
 $result = $mysqli->query($query);
 while ($row = $result->fetch_object()){
     $user_arr[] = $row;
-    print_r($row);
+   // print_r($row);
 }
+print json_encode($user_arr);
 $result->close();
 //print_r($user_arr);
 
