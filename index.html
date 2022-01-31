@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>        
+        <meta charset="utf-8">
+        <title>Tägliche Kinderbeobachtungen</title>
+        <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="js/angular-1.7.9.min.js"></script>
+        <script src="js/script.js" defer></script>
+        <link rel='stylesheet' href='css/style.css'>
+    </head>
+    <body ng-app="myApp" ng-controller="myCtrl">
+        <div id="wrapper">
+            <header>
+                <h1>Tägliche Kinderbeobachtungen</h1>
+            </header>
+            <nav>
+                <ul>
+                </ul>
+            </nav>
+            <main>
+                <section>
+                    <h2>Home</h2>
+                    <p>Projektbeschreibung.</p>
+
+                    <h3>Fragen an Hr. Schäfer</h3>
+                    <ol>
+                        <li>Beim Daten senden Fehlermeldung object sollte type "Datum" sein!</li>
+                        <li>Nachdem Daten abgesendet werden funktioniert ng-model erst nachdem ein Wert verändert wurde</li>
+                        <li>Float-Werte werden nicht gespeichert trotz parseFloat();</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h2>Daten hinzufügen</h2>
+                    <form>
+                        <div>
+                            <label for="datum">Datum</label>
+                            <input ng-model="inputData.datum" type="date" name="datum">
+                            <p ng-model="inputData.datum">Datumausgabe | date {{inputData.datum |date:'yyyy-MM-dd'}}</p>
+                            <p ng-model="inputData.datum">{{inputData.datum}}</p>
+                        </div>
+                        <div>
+                            <label for="kind">Kind</label>
+                            <select ng-model="inputData.kind" name="kind">
+                                <option value="1">Lena</option>
+                                <option value="2">Isabella</option>
+                            </select>
+
+                            <input ng-model="inputData.kind" name="kind">
+                        </div>
+                        <div>
+                            <input ng-model="inputData.aufstehzeit" name="kind">
+                            <label for="aufstehzeit">Aufstehzeit</label>
+                            <select ng-model="inputData.aufstehzeit" name="aufstehzeit">
+                                <option ng-repeat="option in aufstehzeitInputDaten" ng-value="option.value">{{option.placeholder}}</option>
+
+                            
+                            </select>
+                        </div>
+                        <div>
+                            <label for="schlafzeit">Schlafzeit</label>
+                            <input ng-model="inputData.schlafzeit" name="schlafzeit">
+                        </div>
+                        <div>
+                            <button ng-click="saveData()">Speichern</button>
+                        </div>
+                        <div>
+                            <button ng-click="insert()">in DB speichern</button>
+                        </div>
+                    </form>
+                    <button ng-click="debug()">Debug</button>
+                </section>
+
+                <section>
+                    <h2>Statistik</h2>
+                    <div id="responsecontainer"></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Datum</td>
+                                <td>Kind</td>
+                                <td>Aufstehzeit</td>
+                                <td>Schlafzeit</td>
+                                <td>Dauer Munter</td>
+                            </tr>
+                        </thead>
+                        <div>
+                            <label for="suche">Suchen</label>
+                            <input name="suche" type="text" ng-model="suche">
+                        </div>
+                        <tbody>
+                            <tr ng-repeat="ausgabe in data | filter:suche">
+                                <td>{{ ausgabe.datum }}</td>
+                                <td>{{ ausgabe.kind }}</td>
+                                <td>{{ ausgabe.aufstehzeit }}</td>
+                                <td>{{ ausgabe.schlafzeit }}</td>
+                                <td>{{ ausgabe.schlafzeit - ausgabe.aufstehzeit }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+
+            </main>
+            <footer></footer>
+
+            
+        </div>
+
+    </body>
+
+</html>
