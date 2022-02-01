@@ -1,5 +1,5 @@
 var app = angular.module('myApp', []);
-app.controller('myCtrl', function($scope, $filter) {
+app.controller('myCtrl', function($scope, $filter, $http) {
     //DEKLARATIONEN
     $scope.inputData = {
         'datum' : new Date(),
@@ -47,8 +47,34 @@ app.controller('myCtrl', function($scope, $filter) {
     ]
   
  
+    //CRUD
+    //CREATE
+    $scope.create = function() {
+        $http({
+            method: "post",
+            url: "db/insert.php",
+            data: {
+                aufstehzeit : parseFloat($scope.inputData.aufstehzeit),
+                schlafzeit : parseFloat($scope.inputData.schlafzeit),
+                wachzeit : parseFloat($scope.inputData.wachzeit),
+                name : $scope.inputData.name,
+                datum : $scope.inputData.datum,
+            }, 
+        }).then(function(response) {
+          console.log(response);
+        });
+    }
 
 
+    //READ
+    $http.get("db/query.php")
+    .then(function(response) {
+      $scope.mehrData = response.data;
+    });
+
+    //UPDATE
+
+    //DELETE
 
 
     //DEBUG-FUNCTIONS
@@ -61,7 +87,7 @@ app.controller('myCtrl', function($scope, $filter) {
 
 
 
-
+/*
     // ALLE OBJEKTE BEIM SEITENAUFRUF LADEN:
     $(document).ready(function() {
         $scope.query();
@@ -91,10 +117,10 @@ app.controller('myCtrl', function($scope, $filter) {
             }
         });    
     }
+*/
 
 
-
-
+/*
     $scope.insert = function() {
 
         // INPUT-VALIDIERUNG: Überprüft ob die [required] inputs ausgefüllt wurden!
@@ -147,4 +173,6 @@ app.controller('myCtrl', function($scope, $filter) {
             }
         });
     };
+
+    */
 });

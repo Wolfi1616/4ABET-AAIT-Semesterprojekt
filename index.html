@@ -47,6 +47,7 @@
                         <div>
                             <label for="datum">Datum</label>
                             <input ng-model="inputData.datum" type="date" name="datum">
+                            <p ng-model="inputData.datum" type="date" name="datum">{{inputData.datum}}</p>
                         </div>
 
                         <!-- NAME / KIND  -->
@@ -77,7 +78,7 @@
                             <span style="font-size: 12px;" ng-model="inputData.schlafzeit">Umgerechnet Werter (DEBUG): {{inputData.schlafzeit}}</span>
                         </div>
                         <div>
-                            <button ng-click="insert()">in DB speichern</button>
+                            <button ng-click="create()">in DB speichern</button>
                         </div>
                     </form>
                 </section>

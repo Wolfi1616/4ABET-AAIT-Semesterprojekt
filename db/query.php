@@ -32,12 +32,16 @@ daten.datum DESC
 ';
 
 $result = $mysqli->query($query);
+//fetch_assoc --> wäre array
 while ($row = $result->fetch_object()){
     $user_arr[] = $row;
    // print_r($row);
 }
 print json_encode($user_arr);
+
 $result->close();
 //print_r($user_arr);
+
+$mysqli->close();
 
 return $user_arr;

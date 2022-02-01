@@ -1,11 +1,17 @@
 <?php
-
 	$aufstehzeit = isset($_POST['aufstehzeit']) ? $_POST['aufstehzeit'] : exit('0');
 	$schlafzeit = isset($_POST['schlafzeit']) ? $_POST['schlafzeit'] : exit('0');
 	$wachzeit = isset($_POST['wachzeit']) ? $_POST['wachzeit'] : exit('0');
 	$kind = isset($_POST['name']) ? $_POST['name'] : exit('0');
 	$datum = isset($_POST['datum']) ? $_POST['datum'] : exit('0');
+	$datum = strtotime($datum);
 
+	$aufstehzeit = '6';
+	$schlafzeit = '7'; 
+	$wachzeit = '1';
+	$datum = '2022-01-31';
+
+	
 	$servername = 'localhost';
 	$username = 'root';
 	$password = '';
