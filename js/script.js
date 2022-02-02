@@ -106,10 +106,7 @@ app.controller('myCtrl', function($scope, $http) {
     }
 
 
-
-
-    //CRUD
-
+    //CRUD-OPERATIONEN:
     //CREATE
     $scope.create = function() {
         updateInputValues('create');
@@ -129,8 +126,6 @@ app.controller('myCtrl', function($scope, $http) {
             read();
         });
     };
-
-
     //READ
     function read() {
         $http.get("db/query.php")
@@ -138,14 +133,12 @@ app.controller('myCtrl', function($scope, $http) {
         $scope.data = response.data;
         });
     }
-
     //EDIT (VORSTUFE ZU UPDATE ODER DELETE - BEFÜLLT DIE DATEN):
     $scope.edit = function(id) {
         $scope.updateCondition = true;
         $scope.routerNavigation('Dateneingabe');
         updateInputValues('update', id);
     }   
-
     //UPDATE
     $scope.update = function() {
         updateDataVariable();
@@ -159,20 +152,25 @@ app.controller('myCtrl', function($scope, $http) {
                 kind : $scope.kind,
             })
         .then(function() {
-
             updateInputValues('clear');
             read();
         });
-
-        //UPDATE FUNKTION FEHLT NOCH!
         $scope.redirectAndClear();
     }
     //DELETE
     $scope.delete = function() {
-        
-        // DELETE FUNKTION FEHLT NOCH!
-        $scope.redirectAndClear();
+        updateDataVariable();
+        $http.post(
+            "db/delete.php", {
+                id : $scope.id,
+            })
+        .then(function() {
+            updateInputValues('clear');
+            read();
+        });
+        $scope.redirectAndClear();        
     }
+
 
     $scope.redirectAndClear = function() {
         $scope.formTitle = 'Daten hinzufügen';
