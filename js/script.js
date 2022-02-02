@@ -1,89 +1,118 @@
+//NAV-MENU (& TOGGLE SECTIONS)
+$('section').css('display', 'none');
+$('section').first().css('display', 'block');
+
+var text = $('ul').html();
+$('section > h2').each(function () {
+    text += '<li ng-click="menu(\'' + $(this).text() + '\')">' + $(this).text() + '</li>';
+});
+$('ul').html(text);
+
+
+
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $filter, $http) {
+
+    //DEBUG-FUNCTIONS
+    $scope.debug = function() {
+        zeitdifferenzBerechnen($('#aufstehzeit').val(), $('#schlafzeit').val());
+    }
+
+
+
     //DEKLARATIONEN
-    $scope.inputData = {
-        'datum' : new Date(),
-        'name' : '',
-        'aufstehzeit' : '',
-        'schlafzeit' : '',
-        'wachzeit' : '',
-    };
+
+    //INPUT-FELDER;
+    $scope.aufstehzeit = '';
+    $scope.schlafzeit = '';
+    $scope.wachzeit = '';
+    $scope.datum = '';
+    $scope.kind = '';
+
+
+    //CRUD-OPERATOREN:
+    $scope.update = false;
 
 
     $scope.mehrData = [];
     $scope.suche = '';
 
+    // NAV-MENU TOGGLES
+    $scope.menu = function(activeMenu) {
+       $('section').css('display', 'none');
+       $('section > h2').each(function() {
+           if (activeMenu == $(this).text() ) {
+               $(this).parent().css('display', 'block');
+           }
+       });
+    };
 
-    // SELECT-OPTIONEN
-    $scope.aufstehzeitInputDaten = [
-        {'value' : '07.00', 'placeholder' : '07:00'},
-        {'value' : '07.25', 'placeholder' : '07:15'},
-        {'value' : '07.50', 'placeholder' : '07:30'},
-        {'value' : '07.75', 'placeholder' : '07:45'},
-        {'value' : '08.00', 'placeholder' : '08:00'},
-        {'value' : '08.25', 'placeholder' : '08:15'},
-        {'value' : '08.50', 'placeholder' : '08:30'},
-        {'value' : '08.75', 'placeholder' : '08:45'},
-        {'value' : '09.00', 'placeholder' : '09:00'},
-    ]
-    $scope.schlafzeitInputDaten = [
-        {'value' : '18.00', 'placeholder' : '18:00'},
-        {'value' : '18.25', 'placeholder' : '18:15'},
-        {'value' : '18.50', 'placeholder' : '18:30'},
-        {'value' : '18.75', 'placeholder' : '18:45'},        
-        {'value' : '19.00', 'placeholder' : '19:00'},
-        {'value' : '19.25', 'placeholder' : '19:15'},
-        {'value' : '19.50', 'placeholder' : '19:30'},
-        {'value' : '19.75', 'placeholder' : '19:45'},
-        {'value' : '20.00', 'placeholder' : '20:00'},
-        {'value' : '20.25', 'placeholder' : '20:15'},
-        {'value' : '20.50', 'placeholder' : '20:30'},
-        {'value' : '20.75', 'placeholder' : '20:45'},
-        {'value' : '21.00', 'placeholder' : '21:00'},
-        {'value' : '21.25', 'placeholder' : '21:15'},
-        {'value' : '21.50', 'placeholder' : '21:30'},
-        {'value' : '21.75', 'placeholder' : '21:45'},
-        {'value' : '22.00', 'placeholder' : '22:00'},
-    ]
-  
- 
+
+    function zeitdifferenzBerechnen(startzeit, endzeit) {
+        stunden = endzeit.split(':')[0] - startzeit.split(':')[0];
+        minuten = endzeit.split(':')[1] - startzeit.split(':')[1];
+
+        minuten = minuten.toString().length < 2 ? '0' + minuten : minuten;
+        if(minuten<0){ 
+            stunden--;
+            minuten = 60 + minuten;
+        }
+        stunden = stunden.toString().length < 2 ? '0' + stunden : stunden;
+
+        console.log('Differenz beträgt ' + stunden + ':' + minuten);
+        return stunden + ':' + minuten;
+    }
+
+    function updateInputValues(type) {
+        if (type == 'create') {
+            $scope.aufstehzeit = $('#aufstehzeit').val();
+            $scope.schlafzeit = $('#schlafzeit').val();
+            $scope.datum = $('#datum').val();
+            $scope.kind = $('#name').val();
+            $scope.wachzeit = zeitdifferenzBerechnen($scope.aufstehzeit, $scope.schlafzeit);
+        } else if (type == 'update') {
+            console.log('Update');
+        }
+
+    }
+
+
+
+
     //CRUD
+
     //CREATE
     $scope.create = function() {
-        $http({
-            method: "post",
-            url: "db/insert.php",
-            data: {
-                aufstehzeit : parseFloat($scope.inputData.aufstehzeit),
-                schlafzeit : parseFloat($scope.inputData.schlafzeit),
-                wachzeit : parseFloat($scope.inputData.wachzeit),
-                name : $scope.inputData.name,
-                datum : $scope.inputData.datum,
-            }, 
-        }).then(function(response) {
+        updateInputValues('create');
+        $http.post(
+            "db/insert.php", {
+                aufstehzeit : $scope.aufstehzeit,
+                schlafzeit : $scope.schlafzeit,
+                wachzeit : $scope.wachzeit,
+                datum : $scope.datum,
+                kind : $scope.kind,
+            })
+        .then(function(response) {
           console.log(response);
+        });
+    };
+
+
+    //READ
+    $scope.read = function() {
+        $http.get("db/query.php")
+        .then(function(response) {
+        $scope.mehrData = response.data;
         });
     }
 
 
-    //READ
-    $http.get("db/query.php")
-    .then(function(response) {
-      $scope.mehrData = response.data;
-    });
-
     //UPDATE
-
+    $scope.update = function() {
+        updateInputValues('update');
+    }
     //DELETE
 
-
-    //DEBUG-FUNCTIONS
-    $scope.debug = function() {
-        console.log( $scope.mehrData );
-    }
-    $scope.testlog = function() {
-        console.log($scope.data);
-    }
 
 
 

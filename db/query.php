@@ -39,9 +39,6 @@ while ($row = $result->fetch_object()){
 }
 print json_encode($user_arr);
 
-$result->close();
 //print_r($user_arr);
-
+$result->close();
 $mysqli->close();
-
-return $user_arr;

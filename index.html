@@ -9,7 +9,6 @@
         <script src="js/jquery-3.6.0.min.js"></script>
         <script src="js/angular-1.7.9.min.js"></script>
         <script src="js/script.js" defer></script>
-        <script src="js/menu.js" defer></script>
 
         <link rel='stylesheet' href='css/style.css'>
     </head>
@@ -46,39 +45,33 @@
                         <!-- DATUM  -->
                         <div>
                             <label for="datum">Datum</label>
-                            <input ng-model="inputData.datum" type="date" name="datum">
-                            <p ng-model="inputData.datum" type="date" name="datum">{{inputData.datum}}</p>
+                            <input required type="date" name="datum" id="datum">
                         </div>
 
                         <!-- NAME / KIND  -->
                         <div>
                             <label for="name">Kind</label>
-                            <select required ng-model="inputData.name" name="name">
+                            <select required name="name" id="name">
                                 <option value="1">Lena</option>
                                 <option value="2">Isabella</option>
                             </select>
-                            <span style="font-size: 12px;" ng-model="inputData.name">Umgerechneter Wert (DEBUG): {{inputData.name}}</span>
+                            <span style="font-size: 12px;">Umgerechneter Wert (DEBUG): {{inputData.name}}</span>
                         </div>
-
                         <!-- AUFSTEHZEIT -->                        
                         <div>
                             <label for="aufstehzeit">Aufstehzeit</label>
-                            <select required ng-model="inputData.aufstehzeit" name="aufstehzeit">
-                                <option ng-repeat="option in aufstehzeitInputDaten" ng-value="option.value">{{option.placeholder}}</option>                            
-                            </select>
-                            <span style="font-size: 12px;" ng-model="inputData.aufstehzeit">Umgerechneter Wert (DEBUG): {{inputData.aufstehzeit}}</span>
+                            <input required name="aufstehzeit" id="aufstehzeit" type="time">
                         </div>
 
                         <!-- SCHLAFZEIT -->
                         <div>
                             <label for="schlafzeit">Schlafzeit</label>
-                            <select required ng-model="inputData.schlafzeit" name="schlafzeit">
-                                <option ng-repeat="option in schlafzeitInputDaten" ng-value="option.value">{{option.placeholder}}</option>                            
-                            </select>
-                            <span style="font-size: 12px;" ng-model="inputData.schlafzeit">Umgerechnet Werter (DEBUG): {{inputData.schlafzeit}}</span>
+                            <input required name="schlafzeit" id="schlafzeit" type="time">
                         </div>
                         <div>
                             <button ng-click="create()">in DB speichern</button>
+                            <button ng-if="update" ng-click="update()">Aktualisieren</button>
+                            <button ng-click="debug()">DEBUG</button>
                         </div>
                     </form>
                 </section>
@@ -88,7 +81,7 @@
 
                 <section>
                     <h2>Statistik</h2>
-                    <button ng-click="query()">Daten laden!</button>
+                    <button ng-click="read()">Daten laden!</button>
                     <table>
                         <thead>
                             <tr>
