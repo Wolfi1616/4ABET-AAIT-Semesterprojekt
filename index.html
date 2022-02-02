@@ -22,6 +22,8 @@
                 </ul>
             </nav>
             <main>
+                <button ng-click="debug()">DEBUG</button>
+
                 <section menuName="Home">
                     <h2>Home</h2>
                     <p>Projektbeschreibung.</p>
@@ -43,6 +45,10 @@
                     <form id="input-form">
 
                         <!-- DATUM  -->
+                        <div ng-if="updateCondition">
+                            <label for="id">ID</label>
+                            <input disabled name="id" id="id">
+                        </div>
                         <div>
                             <label for="datum">Datum</label>
                             <input required type="date" name="datum" id="datum">
@@ -52,10 +58,10 @@
                         <div>
                             <label for="name">Kind</label>
                             <select required name="name" id="name">
+                                <option disabled selected>Bitte ein Kind auswählen!</option>
                                 <option value="1">Lena</option>
                                 <option value="2">Isabella</option>
                             </select>
-                            <span style="font-size: 12px;">Umgerechneter Wert (DEBUG): {{inputData.name}}</span>
                         </div>
                         <!-- AUFSTEHZEIT -->                        
                         <div>
@@ -73,7 +79,6 @@
                             <button ng-if="updateCondition" ng-click="update()">Aktualisieren</button>
                             <button ng-if="updateCondition" ng-click="delete()">Löschen</button>
                             <button ng-if="updateCondition" ng-click="redirectAndClear()">Änderungen verwerfen</button>
-                            <button ng-click="debug()">DEBUG</button>
                         </div>
                     </form>
                 </section>
@@ -83,7 +88,6 @@
 
                 <section menuName="Statistik">
                     <h2>Statistik</h2>
-                    <button ng-click="read()">Daten laden!</button>
                     <table>
                         <thead>
                             <tr>

@@ -10,7 +10,9 @@ $('ul').html(text);
 
 
 var app = angular.module('myApp', []);
-app.controller('myCtrl', function($scope, $filter, $http) {
+app.controller('myCtrl', function($scope, $http) {
+    read();
+
 
     //DEBUG
     $scope.debug = function() {
@@ -71,29 +73,24 @@ app.controller('myCtrl', function($scope, $filter, $http) {
             $scope.kind = $('#name').val();
             $scope.wachzeit = zeitdifferenzBerechnen($scope.aufstehzeit, $scope.schlafzeit);
         } else if (type == 'update') {
-
-            console.log('Update ID: ' + id);
             $http.post(
                 "db/getDataById.php", {
                     id : id,
                 })
             .then(function(response) {
-              console.log(response.data);
               $scope.formTitle = 'Daten aktualisieren';
               $('#aufstehzeit').val(response.data.aufstehzeit);
               $('#schlafzeit').val(response.data.schlafzeit);
               $('#datum').val(response.data.datum);
               $('#name').val(response.data.kind);
-              //tmpAufstehzeit = response.data.aufstehzeit;
-              //$('#schlafzeit').val() = data.schlafzeit;
-
+              $('#id').val(response.data.id);
             });            
-
         } else if (type = 'clear') {
             $('#aufstehzeit').val('');
             $('#schlafzeit').val('');
             $('#datum').val('');
             $('#name').val('');
+            $('#id').val('');
         }
 
     }
@@ -114,14 +111,18 @@ app.controller('myCtrl', function($scope, $filter, $http) {
                 datum : $scope.datum,
                 kind : $scope.kind,
             })
-        .then(function(response) {
-          console.log(response);
+        .then(function() {
+            updateInputValues('clear');
+            /*Bei größeren Anwendungen könnte man hier bestimmt auch einfach die bereits bestehenden Daten 
+            aus der read-funktion um die eingegebenen Daten erweitern 
+            (dann muss keine extra DB-Query angewendet werden)!*/
+            read();
         });
     };
 
 
     //READ
-    $scope.read = function() {
+    function read() {
         $http.get("db/query.php")
         .then(function(response) {
         $scope.data = response.data;
@@ -143,7 +144,7 @@ app.controller('myCtrl', function($scope, $filter, $http) {
     }
     //DELETE
     $scope.delete = function() {
-
+        
         // DELETE FUNKTION FEHLT NOCH!
         $scope.redirectAndClear();
     }
