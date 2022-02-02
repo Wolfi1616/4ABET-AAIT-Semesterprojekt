@@ -1,4 +1,8 @@
-//NAV-MENU (& TOGGLE SECTIONS)
+/* ------------------------------------------------------------------------
+---------------------------------------------------------------------------
+--------------------------MENÜ-INITIALISIERUNG-----------------------------
+---------------------------------------------------------------------------
+-------------------------------------------------------------------------*/  
 $('section').css('display', 'none');
 $('section').first().css('display', 'block');
 
@@ -9,8 +13,11 @@ $('section').each(function () {
 $('ul').html(text);
 
 
+
+
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $http) {
+    
     read();
 
 
@@ -19,9 +26,14 @@ app.controller('myCtrl', function($scope, $http) {
         zeitdifferenzBerechnen($('#aufstehzeit').val(), $('#schlafzeit').val());
     }
 
-    //DEKLARATIONEN
 
-    //INPUT-FELDER;
+
+    /* ------------------------------------------------------------------------
+    ---------------------------------------------------------------------------
+    ------------------------VARIABLENDEKLARATIONEN-----------------------------
+    ---------------------------------------------------------------------------
+    -------------------------------------------------------------------------*/  
+    //INPUT-FELDER --> temporäre variablen für CRUD-Operationen;
     $scope.aufstehzeit = '';
     $scope.schlafzeit = '';
     $scope.wachzeit = '';
@@ -29,7 +41,7 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.kind = '';
     $scope.id = '';
 
-    //DIVERS
+    //DIVERS --> sonstige Variablen:
     $scope.data = [];
     $scope.suche = '';
     $scope.formTitle = 'Daten hinzufügen';
@@ -37,17 +49,27 @@ app.controller('myCtrl', function($scope, $http) {
 
 
 
-    // NAV-MENU TOGGLES
+    /* ------------------------------------------------------------------------
+    ---------------------------------------------------------------------------
+    -------------------------FUNKTIONEN (DIVERS)-------------------------------
+    ---------------------------------------------------------------------------
+    -------------------------------------------------------------------------*/  
     $scope.routerNavigation = function(activeMenu) {
-  //  function routerNavigation(activeMenu) {
+        //TODO: REMOVE-CLASS FÜR AKTIVES MENÜ-ELEMENT
        $('section').css('display', 'none');
        $('section').each(function() {
            if (activeMenu == $(this).attr('menuName') ) {
+               //TODO: ADD-CLASS FÜR AKTIVES MENÜ-ELEMENT
                $(this).css('display', 'block');
            }
        });
     };
-
+    $scope.redirectAndClear = function() {
+        $scope.formTitle = 'Daten hinzufügen';
+        $scope.updateCondition = false;
+        $scope.routerNavigation('Statistik');
+        updateInputValues('clear');
+    }
 
     function zeitdifferenzBerechnen(startzeit, endzeit) {
         stunden = endzeit.split(':')[0] - startzeit.split(':')[0];
@@ -63,8 +85,6 @@ app.controller('myCtrl', function($scope, $http) {
         console.log('Differenz beträgt ' + stunden + ':' + minuten);
         return stunden + ':' + minuten;
     }
-
-
 
     function updateInputValues(type, id) {
         if (type == 'create') {
@@ -106,12 +126,18 @@ app.controller('myCtrl', function($scope, $http) {
     }
 
 
-    //CRUD-OPERATIONEN:
+
+    /* ------------------------------------------------------------------------
+    ---------------------------------------------------------------------------
+    --------------------------CRUD-OPERATIONEN---------------------------------
+    ---------------------------------------------------------------------------
+    -------------------------------------------------------------------------*/
     //CREATE
     $scope.create = function() {
+        //TODO: INPUT-VALIDIERUNG
         updateInputValues('create');
         $http.post(
-            "db/insert.php", {
+            "db/create.php", {
                 aufstehzeit : $scope.aufstehzeit,
                 schlafzeit : $scope.schlafzeit,
                 wachzeit : $scope.wachzeit,
@@ -128,7 +154,7 @@ app.controller('myCtrl', function($scope, $http) {
     };
     //READ
     function read() {
-        $http.get("db/query.php")
+        $http.get("db/read.php")
         .then(function(response) {
         $scope.data = response.data;
         });
@@ -170,14 +196,4 @@ app.controller('myCtrl', function($scope, $http) {
         });
         $scope.redirectAndClear();        
     }
-
-
-    $scope.redirectAndClear = function() {
-        $scope.formTitle = 'Daten hinzufügen';
-        $scope.updateCondition = false;
-        $scope.routerNavigation('Statistik');
-        updateInputValues('clear');
-    }
-
-
 });

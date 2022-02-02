@@ -1,8 +1,5 @@
 <?php
-$servername = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'kinderbeobachtungen';
+require_once('./db-config.php');
 
 $mysqli = new mysqli($servername, $username, $password, $database);
 
