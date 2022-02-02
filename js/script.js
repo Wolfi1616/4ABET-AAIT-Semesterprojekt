@@ -27,6 +27,7 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.wachzeit = '';
     $scope.datum = '';
     $scope.kind = '';
+    $scope.id = '';
 
     //DIVERS
     $scope.data = [];
@@ -67,11 +68,7 @@ app.controller('myCtrl', function($scope, $http) {
 
     function updateInputValues(type, id) {
         if (type == 'create') {
-            $scope.aufstehzeit = $('#aufstehzeit').val();
-            $scope.schlafzeit = $('#schlafzeit').val();
-            $scope.datum = $('#datum').val();
-            $scope.kind = $('#name').val();
-            $scope.wachzeit = zeitdifferenzBerechnen($scope.aufstehzeit, $scope.schlafzeit);
+            updateDataVariable();
         } else if (type == 'update') {
             $http.post(
                 "db/getDataById.php", {
@@ -93,6 +90,19 @@ app.controller('myCtrl', function($scope, $http) {
             $('#id').val('');
         }
 
+    }
+
+    function updateDataVariable() {
+        if($scope.updateCondition) {
+            $scope.id = $('#id').val();
+        } else {
+            $scope.id = '';
+        }
+        $scope.aufstehzeit = $('#aufstehzeit').val();
+        $scope.schlafzeit = $('#schlafzeit').val();
+        $scope.datum = $('#datum').val();
+        $scope.kind = $('#name').val();
+        $scope.wachzeit = zeitdifferenzBerechnen($scope.aufstehzeit, $scope.schlafzeit);
     }
 
 
@@ -138,6 +148,21 @@ app.controller('myCtrl', function($scope, $http) {
 
     //UPDATE
     $scope.update = function() {
+        updateDataVariable();
+        $http.post(
+            "db/update.php", {
+                id : $scope.id,
+                aufstehzeit : $scope.aufstehzeit,
+                schlafzeit : $scope.schlafzeit,
+                wachzeit : $scope.wachzeit,
+                datum : $scope.datum,
+                kind : $scope.kind,
+            })
+        .then(function() {
+
+            updateInputValues('clear');
+            read();
+        });
 
         //UPDATE FUNKTION FEHLT NOCH!
         $scope.redirectAndClear();
