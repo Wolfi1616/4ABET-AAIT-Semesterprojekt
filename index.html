@@ -22,7 +22,7 @@
                 </ul>
             </nav>
             <main>
-                <section>
+                <section menuName="Home">
                     <h2>Home</h2>
                     <p>Projektbeschreibung.</p>
 
@@ -38,8 +38,8 @@
                     </ol>
                 </section>
 
-                <section>
-                    <h2>Daten hinzufügen</h2>
+                <section menuName="Dateneingabe">
+                    <h2>{{formTitle}}</h2>
                     <form id="input-form">
 
                         <!-- DATUM  -->
@@ -69,8 +69,10 @@
                             <input required name="schlafzeit" id="schlafzeit" type="time">
                         </div>
                         <div>
-                            <button ng-click="create()">in DB speichern</button>
-                            <button ng-if="update" ng-click="update()">Aktualisieren</button>
+                            <button ng-if="!updateCondition" ng-click="create()">in DB speichern</button>
+                            <button ng-if="updateCondition" ng-click="update()">Aktualisieren</button>
+                            <button ng-if="updateCondition" ng-click="delete()">Löschen</button>
+                            <button ng-if="updateCondition" ng-click="redirectAndClear()">Änderungen verwerfen</button>
                             <button ng-click="debug()">DEBUG</button>
                         </div>
                     </form>
@@ -79,7 +81,7 @@
 
 
 
-                <section>
+                <section menuName="Statistik">
                     <h2>Statistik</h2>
                     <button ng-click="read()">Daten laden!</button>
                     <table>
@@ -91,6 +93,7 @@
                                 <td>Aufstehzeit</td>
                                 <td>Schlafzeit</td>
                                 <td>Dauer Munter</td>
+                                <td>Aktion</td>
                             </tr>
                         </thead>
                         <div>
@@ -98,13 +101,14 @@
                             <input name="suche" type="text" ng-model="suche">
                         </div>
                         <tbody>
-                            <tr ng-model="mehrData" ng-repeat="ausgabe in mehrData | filter:suche">
+                            <tr ng-model="data" ng-repeat="ausgabe in data | filter:suche">
                                 <td>{{ ausgabe.id }}</td>
                                 <td>{{ ausgabe.datum |date:'dd.MM.yyyy' }}</td>
                                 <td>{{ ausgabe.name }}</td>                                
                                 <td>{{ ausgabe.aufstehzeit }} Uhr</td>
                                 <td>{{ ausgabe.schlafzeit }} Uhr</td>
                                 <td>{{ ausgabe.wachzeit }} Std.</td>
+                                <td><button ng-click="edit(ausgabe.id)">bearbeiten</button></td>
                             </tr>
                         </tbody>
                     </table>
