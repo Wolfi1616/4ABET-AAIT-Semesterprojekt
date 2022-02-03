@@ -23,7 +23,7 @@ app.controller('myCtrl', function($scope, $http) {
 
     //DEBUG
     $scope.debug = function() {
-        console.log($scope.id);
+        console.log(zeitBerechnen('00:00', '08:12', 'relativ') );
     }
 
 
@@ -37,6 +37,7 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.aufstehzeit = '';
     $scope.schlafzeit = '';
     $scope.wachzeit = '';
+    $scope.relativeWachzeit = '';
     $scope.datum = '';
     $scope.kind = '';
     $scope.id = '';
@@ -73,19 +74,28 @@ app.controller('myCtrl', function($scope, $http) {
         updateInputValues('clear');
     }
 
-    function zeitdifferenzBerechnen(startzeit, endzeit) {
+
+    function zeitBerechnen(startzeit, endzeit, format) {
         stunden = endzeit.split(':')[0] - startzeit.split(':')[0];
         minuten = endzeit.split(':')[1] - startzeit.split(':')[1];
 
-        minuten = minuten.toString().length < 2 ? '0' + minuten : minuten;
-        stunden = stunden.toString().length < 2 ? '0' + stunden : stunden;
+        minuten = minuten.toString().length < 2 ? 0 + minuten : minuten;
+        stunden = stunden.toString().length < 2 ? 0 + stunden : stunden;
 
-        if(minuten<0){ 
+        if(minuten < 0){ 
             stunden--;
             minuten = 60 + minuten;
         }
+        if (format == 'zeit') {
+            return stunden + ':' + minuten;
 
-        return stunden + ':' + minuten;
+        } else if (format == 'relativ') {
+            minuten = minuten/60;
+            console.log(minuten);
+            console.log(typeof(parseFloat(stunden + minuten)));
+
+            return parseFloat(100*(stunden+minuten)/24).toFixed(2) + '%';
+        }
     }
 
     function updateInputValues(type, id) {
@@ -124,18 +134,9 @@ app.controller('myCtrl', function($scope, $http) {
         $scope.schlafzeit = $('#schlafzeit').val();
         $scope.datum = $('#datum').val();
         $scope.kind = $('#name').val();
-        $scope.wachzeit = zeitdifferenzBerechnen($scope.aufstehzeit, $scope.schlafzeit);
+        $scope.wachzeit = zeitBerechnen($scope.aufstehzeit, $scope.schlafzeit, 'zeit');
+        $scope.relativeWachzeit = zeitBerechnen($scope.aufstehzeit, $scope.schlafzeit, 'relativ');
     }
-
-    function createChart() {
-        $scope.chartData = $scope.data.reverse();
-        console.log('ChartData normal: ');
-        $scope.data.forEach(element => console.log(element));
-
-        console.log('ChartData reverse: ');
-        $scope.chartData.forEach(element => console.log(element));
-    }
-
 
 
     /* ------------------------------------------------------------------------
@@ -152,6 +153,7 @@ app.controller('myCtrl', function($scope, $http) {
                 aufstehzeit : $scope.aufstehzeit,
                 schlafzeit : $scope.schlafzeit,
                 wachzeit : $scope.wachzeit,
+                relativeWachzeit : $scope.relativeWachzeit,
                 datum : $scope.datum,
                 kind : $scope.kind,
             })
@@ -168,7 +170,6 @@ app.controller('myCtrl', function($scope, $http) {
         $http.get("db/read.php")
         .then(function(response) {
         $scope.data = response.data;
-        createChart();
         });
     }
     //EDIT (VORSTUFE ZU UPDATE ODER DELETE - BEFÜLLT DIE DATEN):
@@ -186,6 +187,7 @@ app.controller('myCtrl', function($scope, $http) {
                 aufstehzeit : $scope.aufstehzeit,
                 schlafzeit : $scope.schlafzeit,
                 wachzeit : $scope.wachzeit,
+                relativeWachzeit : $scope.relativeWachzeit,
                 datum : $scope.datum,
                 kind : $scope.kind,
             })

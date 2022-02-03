@@ -8,6 +8,7 @@
 	$aufstehzeit = isset($_POST['aufstehzeit']) ? $_POST['aufstehzeit'] : exit('0');
 	$schlafzeit = isset($_POST['schlafzeit']) ? $_POST['schlafzeit'] : exit('0');
 	$wachzeit = isset($_POST['wachzeit']) ? $_POST['wachzeit'] : exit('0');
+	$relativeWachzeit = isset($_POST['relativeWachzeit']) ? $_POST['relativeWachzeit'] : exit('0');
 	$kind = isset($_POST['kind']) ? $_POST['kind'] : exit('0');
 	$datum = isset($_POST['datum']) ? $_POST['datum'] : exit('0');
 
@@ -19,9 +20,9 @@
 
 	$query = '
 	INSERT INTO daten
-	(aufstehzeit, schlafzeit, wachzeit, kind, datum)
+	(aufstehzeit, schlafzeit, wachzeit, relativeWachzeit, kind, datum)
 	VALUES
-	("'.$aufstehzeit.'", "'.$schlafzeit.'", "'.$wachzeit.'", "'.$kind.'", "'.$datum.'")
+	("'.$aufstehzeit.'", "'.$schlafzeit.'", "'.$wachzeit.'", "'.$relativeWachzeit.'", "'.$kind.'", "'.$datum.'")
 	';
 	$mysqli->query($query);
 	$mysqli->close();

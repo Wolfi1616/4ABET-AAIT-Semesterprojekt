@@ -9,6 +9,7 @@
     `aufstehzeit` time NOT NULL,
     `schlafzeit` time NOT NULL,
     `wachzeit` time NOT NULL,
+    `relativeWachzeit` varchar(7) NOT NULL,
     `kind` int(11) DEFAULT NULL,
     `datum` date NOT NULL,
     PRIMARY KEY (`id`)

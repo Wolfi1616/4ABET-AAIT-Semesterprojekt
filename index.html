@@ -85,7 +85,13 @@
                         <input placeholder="Suche..." name="suche" id="suche" type="text" ng-model="suche">
                     </div>
 
-                    <div id="diagramm-wrapper">HIER KOMMT EIN DIAGRAMM! ;-)</div>
+                    <div id="diagramm-wrapper">
+                                <div class="bar" ng-model="data" ng-repeat="ausgabe in data | orderBy:reverse:true | filter:suche">
+                                    <svg width="20" ng-style="{'height': ausgabe.relativeWachzeit}">
+                                        <rect width="100%" height="100%" class="{{ausgabe.name}}" />
+                                      </svg>
+                                </div>
+                    </div>
                     <table>
                         <thead>
                             <tr>

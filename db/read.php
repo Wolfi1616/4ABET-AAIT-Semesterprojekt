@@ -11,6 +11,7 @@ SELECT
  daten.aufstehzeit,
  daten.schlafzeit,
  daten.wachzeit,
+ daten.relativeWachzeit,
  daten.datum,
  kinder.name,
  daten.id
