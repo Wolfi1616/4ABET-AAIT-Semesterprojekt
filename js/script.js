@@ -23,7 +23,7 @@ app.controller('myCtrl', function($scope, $http) {
 
     //DEBUG
     $scope.debug = function() {
-        zeitdifferenzBerechnen($('#aufstehzeit').val(), $('#schlafzeit').val());
+        console.log($scope.id);
     }
 
 
@@ -64,6 +64,8 @@ app.controller('myCtrl', function($scope, $http) {
            }
        });
     };
+
+
     $scope.redirectAndClear = function() {
         $scope.formTitle = 'Daten hinzufügen';
         $scope.updateCondition = false;
@@ -76,13 +78,13 @@ app.controller('myCtrl', function($scope, $http) {
         minuten = endzeit.split(':')[1] - startzeit.split(':')[1];
 
         minuten = minuten.toString().length < 2 ? '0' + minuten : minuten;
+        stunden = stunden.toString().length < 2 ? '0' + stunden : stunden;
+
         if(minuten<0){ 
             stunden--;
             minuten = 60 + minuten;
         }
-        stunden = stunden.toString().length < 2 ? '0' + stunden : stunden;
 
-        console.log('Differenz beträgt ' + stunden + ':' + minuten);
         return stunden + ':' + minuten;
     }
 
@@ -108,8 +110,8 @@ app.controller('myCtrl', function($scope, $http) {
             $('#datum').val('');
             $('#name').val('');
             $('#id').val('');
+            updateDataVariable();
         }
-
     }
 
     function updateDataVariable() {
@@ -184,8 +186,11 @@ app.controller('myCtrl', function($scope, $http) {
         $scope.redirectAndClear();
     }
     //DELETE
-    $scope.delete = function() {
+    $scope.delete = function(id) {
         updateDataVariable();
+        if ($scope.id == '' && id) {
+            $scope.id = id;
+        }
         $http.post(
             "db/delete.php", {
                 id : $scope.id,

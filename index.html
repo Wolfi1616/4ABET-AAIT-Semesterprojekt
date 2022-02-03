@@ -10,18 +10,21 @@
         <script src="js/script.js" defer></script>
 
         <link rel='stylesheet' href='css/style.css'>
+        <link rel='stylesheet' href='css/statistik.css'>
     </head>
     <body ng-app="myApp" ng-controller="myCtrl">
-        <div id="wrapper">
-            <header>
-                <h1>Tägliche Kinderbeobachtungen</h1>
-            </header>
-            <nav>
-                <ul>
-                </ul>
-            </nav>
-            <main>
+        <header>
+            <div>
+                <nav>
+                    <ul>
+                    </ul>
+                </nav>
                 <button ng-click="debug()">DEBUG</button>
+                <h1>Tägliche Kinderbeobachtungen</h1>
+            </div>
+        </header>
+        <div id="wrapper">
+            <main>
 
                 <section menuName="Home">
                     <h2>Home</h2>
@@ -31,14 +34,9 @@
                     <ol>
                         <li>Beim Daten senden Fehlermeldung object sollte type "Datum" sein!</li>
                         <li>Nachdem Daten abgesendet werden funktioniert ng-model erst nachdem ein Wert verändert wurde (Select option: https://stackoverflow.com/questions/17921930/how-to-make-angularjs-ng-model-work-with-objects-in-select-elements)</li>
-                        <ol>
-                            <li>Auch bei Datenbank-Query werden die Daten im Objekt erst nach klick auf "debug" angezeigt, obwohl ng-model und/oder ng-repeat?! Aber daten schon vorher in Variable gespeichert (siehe console.log)</li>
-                            <li>zB.: Nach Daten speichern sollte eigl. die funktion query() aufgerufen werden und mit ng-model die Tabelle upgedatet werden.</li>
-                        </ol>
                         <li>Float-Werte werden nicht gespeichert trotz parseFloat();</li>
                     </ol>
                 </section>
-
                 <section menuName="Dateneingabe">
                     <h2>{{formTitle}}</h2>
                     <form id="input-form">
@@ -81,12 +79,13 @@
                         </div>
                     </form>
                 </section>
-
-
-
-
                 <section menuName="Statistik">
-                    <h2>Statistik</h2>
+                    <div id="statistik-kopfzeile">
+                        <h2>Statistik</h2>
+                        <input placeholder="Suche..." name="suche" id="suche" type="text" ng-model="suche">
+                    </div>
+
+                    <div id="diagramm-wrapper">HIER KOMMT EIN DIAGRAMM! ;-)</div>
                     <table>
                         <thead>
                             <tr>
@@ -99,10 +98,6 @@
                                 <td>Aktion</td>
                             </tr>
                         </thead>
-                        <div>
-                            <label for="suche">Suchen</label>
-                            <input name="suche" type="text" ng-model="suche">
-                        </div>
                         <tbody>
                             <tr ng-model="data" ng-repeat="ausgabe in data | filter:suche">
                                 <td>{{ ausgabe.id }}</td>
@@ -111,7 +106,7 @@
                                 <td>{{ ausgabe.aufstehzeit }} Uhr</td>
                                 <td>{{ ausgabe.schlafzeit }} Uhr</td>
                                 <td>{{ ausgabe.wachzeit }} Std.</td>
-                                <td><button ng-click="edit(ausgabe.id)">bearbeiten</button></td>
+                                <td><button ng-click="edit(ausgabe.id)">bearbeiten</button><button ng-click="delete(ausgabe.id)">löschen</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -120,8 +115,6 @@
 
             </main>
             <footer></footer>
-
-            
         </div>
 
     </body>
