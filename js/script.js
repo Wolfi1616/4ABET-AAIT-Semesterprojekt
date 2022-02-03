@@ -127,6 +127,15 @@ app.controller('myCtrl', function($scope, $http) {
         $scope.wachzeit = zeitdifferenzBerechnen($scope.aufstehzeit, $scope.schlafzeit);
     }
 
+    function createChart() {
+        $scope.chartData = $scope.data.reverse();
+        console.log('ChartData normal: ');
+        $scope.data.forEach(element => console.log(element));
+
+        console.log('ChartData reverse: ');
+        $scope.chartData.forEach(element => console.log(element));
+    }
+
 
 
     /* ------------------------------------------------------------------------
@@ -159,6 +168,7 @@ app.controller('myCtrl', function($scope, $http) {
         $http.get("db/read.php")
         .then(function(response) {
         $scope.data = response.data;
+        createChart();
         });
     }
     //EDIT (VORSTUFE ZU UPDATE ODER DELETE - BEFÜLLT DIE DATEN):
