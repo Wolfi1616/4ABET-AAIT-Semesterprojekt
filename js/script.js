@@ -28,7 +28,7 @@ app.controller('myCtrl', function($scope, $http) {
 
     //DEBUG
     $scope.debug = function() {
-        alert('Du findest mich in script.js in Zeile 31!! ;-)');
+        alert('Du findest mich in der Datei "script.js" in Zeile 31!! ;-)');
     }
 
 
