@@ -133,8 +133,6 @@ app.controller('myCtrl', function($scope, $http) {
             $('#id').val('');
             updateDataVariable();
         } else if (type == 'validate') {
-            console.log($scope.kind);
-
             if (
                 $scope.aufstehzeit == '' ||
                 $scope.schlafzeit == '' ||
