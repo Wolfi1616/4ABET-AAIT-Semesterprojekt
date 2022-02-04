@@ -114,7 +114,8 @@ table {
 thead {
     background-color: rgb(49, 49, 49);
     color: white;
-
+    position: sticky;
+    top: 0px;
 }
 td {
     padding: 16px;
