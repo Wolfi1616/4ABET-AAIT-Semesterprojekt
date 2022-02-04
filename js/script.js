@@ -28,7 +28,7 @@ app.controller('myCtrl', function($scope, $http) {
 
     //DEBUG
     $scope.debug = function() {
-        console.log(updateInputValues('validate') );
+        alert('Du findest mich in script.js in Zeile 31!! ;-)');
     }
 
 
