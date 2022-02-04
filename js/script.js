@@ -4,7 +4,7 @@
 ---------------------------------------------------------------------------
 -------------------------------------------------------------------------*/  
 $('section').css('display', 'none');
-$('section').first().css('display', 'block');
+$('section').first().css('display', 'flex');
 
 var text = $('ul').html();
 $('section').each(function () {
@@ -60,7 +60,7 @@ app.controller('myCtrl', function($scope, $http) {
        $('section').each(function() {
            if (activeMenu == $(this).attr('menuName') ) {
                //TODO: ADD-CLASS FÜR AKTIVES MENÜ-ELEMENT
-               $(this).css('display', 'block');
+               $(this).css('display', 'flex');
            }
        });
     };
@@ -133,8 +133,7 @@ app.controller('myCtrl', function($scope, $http) {
                 return false;
             } else {
                 return true;
-            }
-            
+            }  
         }
     }
 
@@ -174,6 +173,7 @@ app.controller('myCtrl', function($scope, $http) {
             })
         .then(function() {
             updateInputValues('clear');
+            alert('Daten gespeichert!');
             /*Bei größeren Anwendungen könnte man hier bestimmt auch einfach die bereits bestehenden Daten 
             aus der read-funktion um die eingegebenen Daten erweitern 
             (dann muss keine extra DB-Query angewendet werden)!*/
