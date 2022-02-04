@@ -21,16 +21,24 @@ header > div {
     width: 80vw;
     margin: 20px auto;
 }
+section{
+    display:flex;
+    flex-direction: column;
+}
 h1 {
     color: white;
     font-size: 24px;
 }
+h2{
+    margin-bottom: 32px;
+    border-bottom: 4px solid rgb(26, 0, 172);
+    width: 45%;
+}
 p {
     text-align: justify;
-    padding: 10px 0px;
+    padding: 5px 0px;
+    padding-bottom: 15px;
 }
-
-
 
 nav > ul {
     list-style: none;
@@ -49,17 +57,18 @@ nav > ul > li:hover {
     font-weight: bold;
 }
 
-input, select{
-    padding: 8px;
-    border: 1px solid rgb(49,49,49);
-    border-bottom: 4px solid rgb(49,49,49);
+code{
+    background-color: rgb(223, 223, 223);
+    padding: 2px 6px;
+
 }
 
-input:focus, select:focus{
-    outline: none;
-    border-bottom: 4px solid rgb(26, 0, 172);
+.link{
+    text-decoration-color: rgb(26, 0, 172);
+    text-decoration: underline;
+    color: rgb(26,0,172);
+    cursor: pointer;
 }
-
 .icon-m{
     width: auto; 
     height: 30px;
@@ -107,4 +116,10 @@ input:focus, select:focus{
 }
 .margin-btm-m{
     margin-bottom: 16px;
+}
+.margin-btm-l{
+    margin-bottom: 32px;
+}
+.margin-btm-xl{
+    margin-bottom: 48px;
 }
