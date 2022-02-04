@@ -125,25 +125,37 @@
                 <section menuName="Statistik">
                     <h2>Statistik</h2>
                     <p>Die folgende Grafik beschreibt die "Wachzeit" in Relation zur Schlafenszeit. Eine Säule umfasst immer 24 Stunden und stellt gestaffelt die Zeit, in der das jeweilige Kind munter war und die Zeit in der es geschlafen hat, dar!</p>
-                    <div id="diagramm-wrapper" class="margin-btm-l">
-                        <div class="bar-wrapper" ng-model="data" ng-repeat="ausgabe in data | orderBy:reverse:true">
-                            <div class="bar">
-                                <svg width="40" ng-style="{'height': ausgabe.relativeWachzeit}">
-                                    <rect width="100%" height="100%" class="{{ausgabe.name}}" />
-                                  </svg>
-                                  <div class="diagramm-beschriftung" ng-style="{'bottom' : ausgabe.relativeWachzeit}">
-                                      <img width="50%" src="img/icons/sonne.svg" >
-                                      <span style="font-size: 10px">{{ausgabe.relativeWachzeit}}</span>
-                                  </div>
-                                  <div class="diagramm-beschriftung" ng-style="{'bottom' : ausgabe.relativeWachzeit}">
-                                      <img width="50%" src="img/icons/moon-white.svg">
-                                  </div>
-                            </div>
-                            <div class="diagramm-beschriftung_datum" ng-if="$index%2==1">
-                                {{ausgabe.datum | date:'dd.MM.yyyy' }}
+                    <div id="diagramm">
+                        <div id="diagramm-wrapper">
+                            <div ng-class="{aktiverFilter : suche}" class="bar-wrapper" ng-model="data" ng-repeat="ausgabe in data | orderBy:reverse:true | filter: suche">
+                                <div class="bar">
+                                    <svg width="40" ng-style="{'height': ausgabe.relativeWachzeit}">
+                                        <rect width="100%" height="100%" class="{{ausgabe.name}}" />
+                                      </svg>
+                                      <div class="diagramm_icon-box" ng-style="{'bottom' : ausgabe.relativeWachzeit}">
+                                          <img width="50%" src="img/icons/sonne.svg" >
+                                          <span>{{ausgabe.relativeWachzeit}}</span><br>
+                                          <span>#{{ausgabe.id}}</span>
+                                      </div>
+                                      <div class="diagramm_icon-box" ng-style="{'bottom' : ausgabe.relativeWachzeit}">
+                                          <img width="50%" src="img/icons/moon-white.svg">
+                                      </div>
+                                </div>
+                                <div  class="diagramm-beschriftung_datum" ng-if="suche == ''">
+                                    <div ng-if="$index%2==1">
+                                        {{ausgabe.datum | date:'dd.MM.yyyy' }}
+                                    </div>                                
+                                </div>
+                                <div class="diagramm-beschriftung_datum aktiverFilter" ng-if="suche != ''">
+                                    {{ausgabe.datum | date:'dd.MM.yyyy' }}
+    
+                                </div>
+    
                             </div>
                         </div>
+
                     </div>
+
                     <div class="legende-row">
                         <div class="legende Lena"></div>
                         <span>Lena</span>

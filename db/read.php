@@ -19,7 +19,8 @@ FROM daten
 LEFT JOIN kinder
 ON daten.kind = kinder.id
 ORDER BY
-daten.datum DESC
+daten.datum DESC,
+kinder.name DESC
 ';
 
 $result = $mysqli->query($sql);
