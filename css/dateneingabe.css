@@ -7,6 +7,10 @@ input:focus, select:focus{
     outline: none;
     border-bottom: 4px solid rgb(26, 0, 172);
 }
+label{
+    font-size: 14px;
+    color: rgb(124, 124, 124)
+}
 #input-form{
     display: flex;
     flex-direction: row;
