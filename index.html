@@ -125,7 +125,7 @@
                 <section menuName="Statistik">
                     <h2>Statistik</h2>
                     <p>Die folgende Grafik beschreibt die "Wachzeit" in Relation zur Schlafenszeit. Eine Säule umfasst immer 24 Stunden und stellt gestaffelt die Zeit, in der das jeweilige Kind munter war und die Zeit in der es geschlafen hat, dar!</p>
-                    <div id="diagramm">
+                    <div id="diagramm" class="margin-btm-m">
                         <div id="diagramm-wrapper">
                             <div ng-class="{aktiverFilter : suche}" class="bar-wrapper" ng-model="data" ng-repeat="ausgabe in data | orderBy:reverse:true | filter: suche">
                                 <div class="bar">
