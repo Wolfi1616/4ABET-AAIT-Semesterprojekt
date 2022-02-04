@@ -21,6 +21,10 @@ input:focus, select:focus{
     display: flex; 
     flex-direction: column;
 }
-.form-row:nth-child(3), .form-row:nth-child(4){
+.form-row:nth-last-child(-n+3){
     width: calc(50% - 10px);
+}
+.form-row:last-child{
+    width: 100%;
+    gap: 10px;
 }

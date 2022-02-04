@@ -54,7 +54,10 @@ nav > ul > li {
     cursor: pointer;
 }
 nav > ul > li:hover {
-    font-weight: bold;
+    text-decoration: underline;
+}
+nav > ul > li.active{
+    text-decoration: underline;
 }
 
 code{

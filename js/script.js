@@ -7,8 +7,13 @@ $('section').css('display', 'none');
 $('section').first().css('display', 'flex');
 
 var text = $('ul').html();
-$('section').each(function () {
-    text += '<li ng-click="routerNavigation(\'' + $(this).attr('menuName') + '\')">' + $(this).attr('menuName') + '</li>';
+$('section').each(function (index) {
+    if( index == 0 ) {
+        text += '<li class="active" ng-click="routerNavigation(\'' + $(this).attr('menuName') + '\')">' + $(this).attr('menuName') + '</li>';
+    } else {
+        text += '<li ng-click="routerNavigation(\'' + $(this).attr('menuName') + '\')">' + $(this).attr('menuName') + '</li>';
+
+    }
 });
 $('ul').html(text);
 
@@ -55,10 +60,17 @@ app.controller('myCtrl', function($scope, $http) {
     ---------------------------------------------------------------------------
     -------------------------------------------------------------------------*/  
     $scope.routerNavigation = function(activeMenu) {
-        //TODO: REMOVE-CLASS FÜR AKTIVES MENÜ-ELEMENT
        $('section').css('display', 'none');
        $('section').each(function() {
            if (activeMenu == $(this).attr('menuName') ) {
+
+               $('nav > ul > li').each(function() {
+                   if(activeMenu == $(this).text() ) {
+                       $(this).addClass('active');
+                   } else {
+                       $(this).removeClass('active');
+                   }
+               })
                //TODO: ADD-CLASS FÜR AKTIVES MENÜ-ELEMENT
                $(this).css('display', 'flex');
            }
