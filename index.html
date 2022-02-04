@@ -48,14 +48,14 @@
                         </div>
                         <div>
                             <label for="datum">Datum</label>
-                            <input required type="date" name="datum" id="datum">
+                            <input type="date" name="datum" id="datum">
                         </div>
 
                         <!-- NAME / KIND  -->
                         <div>
                             <label for="name">Kind</label>
-                            <select required name="name" id="name">
-                                <option disabled selected>Bitte ein Kind auswählen!</option>
+                            <select name="name" id="name">
+                                <option disabled selected value="0">Bitte ein Kind auswählen!</option>
                                 <option value="1">Lena</option>
                                 <option value="2">Isabella</option>
                             </select>
@@ -63,33 +63,36 @@
                         <!-- AUFSTEHZEIT -->                        
                         <div>
                             <label for="aufstehzeit">Aufstehzeit</label>
-                            <input required name="aufstehzeit" id="aufstehzeit" type="time">
+                            <input name="aufstehzeit" id="aufstehzeit" type="time">
                         </div>
 
                         <!-- SCHLAFZEIT -->
                         <div>
                             <label for="schlafzeit">Schlafzeit</label>
-                            <input required name="schlafzeit" id="schlafzeit" type="time">
+                            <input name="schlafzeit" id="schlafzeit" type="time">
                         </div>
                         <div>
-                            <button ng-if="!updateCondition" ng-click="create()">in DB speichern</button>
-                            <button ng-if="updateCondition" ng-click="update()">Aktualisieren</button>
-                            <button ng-if="updateCondition" ng-click="delete()">Löschen</button>
-                            <button ng-if="updateCondition" ng-click="redirectAndClear()">Änderungen verwerfen</button>
+                            <button class="btn hover-animation" ng-if="!updateCondition" ng-click="create()">in DB speichern<img class="icon-s" src="img/icons/save-white.svg"></button>
+                            <button class="btn hover-animation margin-btm-m" ng-if="updateCondition" ng-click="update()">Aktualisieren <img class="icon-s" src="img/icons/save-white.svg"></button>
+                            <br ng-if="updateCondition">
+                            <button class="btn delete hover-animation" ng-if="updateCondition" ng-click="delete()">Löschen <img class="icon-s" src="img/icons/trash-white.svg"></button>
+                            <button class="btn neutral hover-animation" ng-if="updateCondition" ng-click="redirectAndClear()">Änderungen verwerfen</button>
                         </div>
                     </form>
                 </section>
                 <section menuName="Statistik">
-                    <div id="statistik-kopfzeile">
+                    <div id="statistik-kopfzeile" class="margin-btm-m">
                         <h2>Statistik</h2>
                         <input placeholder="Suche..." name="suche" id="suche" type="text" ng-model="suche">
                     </div>
 
-                    <div id="diagramm-wrapper">
+                    <div id="diagramm-wrapper" class="margin-btm-m">
                                 <div class="bar" ng-model="data" ng-repeat="ausgabe in data | orderBy:reverse:true | filter:suche">
-                                    <svg width="20" ng-style="{'height': ausgabe.relativeWachzeit}">
+                                    <svg width="40" ng-style="{'height': ausgabe.relativeWachzeit}">
                                         <rect width="100%" height="100%" class="{{ausgabe.name}}" />
                                       </svg>
+                                      <img src="img/icons/sonne.svg" width="50%" height="auto" ng-style="{'position' : 'absolute', 'bottom' : ausgabe.relativeWachzeit, 'margin-bottom' : '-40px', 'align-self' : 'center'}">  
+                                      <img src="img/icons/moon-white.svg" width="50%" height="auto" ng-style="{'position' : 'absolute', 'bottom' : ausgabe.relativeWachzeit, 'margin-bottom' : '10px', 'align-self' : 'center'}">  
                                 </div>
                     </div>
                     <table>
@@ -112,7 +115,7 @@
                                 <td>{{ ausgabe.aufstehzeit }} Uhr</td>
                                 <td>{{ ausgabe.schlafzeit }} Uhr</td>
                                 <td>{{ ausgabe.wachzeit }} Std.</td>
-                                <td><button ng-click="edit(ausgabe.id)">bearbeiten</button><button ng-click="delete(ausgabe.id)">löschen</button></td>
+                                <td><img src="img/icons/edit.svg" class="icon-m hover-animation" ng-click="edit(ausgabe.id)"><img src="img/icons/trash.svg" class="icon-m hover-animation" ng-click="delete(ausgabe.id)"></td>
                             </tr>
                         </tbody>
                     </table>

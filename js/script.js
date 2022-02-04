@@ -23,7 +23,7 @@ app.controller('myCtrl', function($scope, $http) {
 
     //DEBUG
     $scope.debug = function() {
-        console.log(zeitBerechnen('00:00', '08:12', 'relativ') );
+        console.log(updateInputValues('validate') );
     }
 
 
@@ -33,7 +33,6 @@ app.controller('myCtrl', function($scope, $http) {
     ------------------------VARIABLENDEKLARATIONEN-----------------------------
     ---------------------------------------------------------------------------
     -------------------------------------------------------------------------*/  
-    //INPUT-FELDER --> temporäre variablen für CRUD-Operationen;
     $scope.aufstehzeit = '';
     $scope.schlafzeit = '';
     $scope.wachzeit = '';
@@ -41,7 +40,7 @@ app.controller('myCtrl', function($scope, $http) {
     $scope.datum = '';
     $scope.kind = '';
     $scope.id = '';
-
+    
     //DIVERS --> sonstige Variablen:
     $scope.data = [];
     $scope.suche = '';
@@ -91,8 +90,8 @@ app.controller('myCtrl', function($scope, $http) {
 
         } else if (format == 'relativ') {
             minuten = minuten/60;
-            console.log(minuten);
-            console.log(typeof(parseFloat(stunden + minuten)));
+            //console.log(minuten);
+            //console.log(typeof(parseFloat(stunden + minuten)));
 
             return parseFloat(100*(stunden+minuten)/24).toFixed(2) + '%';
         }
@@ -114,13 +113,28 @@ app.controller('myCtrl', function($scope, $http) {
               $('#name').val(response.data.kind);
               $('#id').val(response.data.id);
             });            
-        } else if (type = 'clear') {
+        } else if (type == 'clear') {
             $('#aufstehzeit').val('');
             $('#schlafzeit').val('');
             $('#datum').val('');
             $('#name').val('');
             $('#id').val('');
             updateDataVariable();
+        } else if (type == 'validate') {
+            console.log($scope.kind);
+
+            if (
+                $scope.aufstehzeit == '' ||
+                $scope.schlafzeit == '' ||
+                $scope.datum == '' ||
+                $scope.kind == null
+            ) {
+                alert('Bitte fülle zuerst alle Felder aus!');
+                return false;
+            } else {
+                return true;
+            }
+            
         }
     }
 
@@ -139,6 +153,7 @@ app.controller('myCtrl', function($scope, $http) {
     }
 
 
+
     /* ------------------------------------------------------------------------
     ---------------------------------------------------------------------------
     --------------------------CRUD-OPERATIONEN---------------------------------
@@ -146,8 +161,8 @@ app.controller('myCtrl', function($scope, $http) {
     -------------------------------------------------------------------------*/
     //CREATE
     $scope.create = function() {
-        //TODO: INPUT-VALIDIERUNG
         updateInputValues('create');
+        if (!updateInputValues('validate')) return;
         $http.post(
             "db/create.php", {
                 aufstehzeit : $scope.aufstehzeit,
@@ -181,6 +196,7 @@ app.controller('myCtrl', function($scope, $http) {
     //UPDATE
     $scope.update = function() {
         updateDataVariable();
+        if (!updateInputValues('validate')) return;
         $http.post(
             "db/update.php", {
                 id : $scope.id,
@@ -199,6 +215,7 @@ app.controller('myCtrl', function($scope, $http) {
     }
     //DELETE
     $scope.delete = function(id) {
+        if (!confirm('Willst du den Datensatz sicher löschen?') ) return;
         updateDataVariable();
         if ($scope.id == '' && id) {
             $scope.id = id;

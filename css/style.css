@@ -49,15 +49,62 @@ nav > ul > li:hover {
     font-weight: bold;
 }
 
-
 input, select{
     padding: 8px;
     border: 1px solid rgb(49,49,49);
     border-bottom: 4px solid rgb(49,49,49);
-    margin-bottom: 8px;
 }
 
 input:focus, select:focus{
     outline: none;
     border-bottom: 4px solid rgb(26, 0, 172);
+}
+
+.icon-m{
+    width: auto; 
+    height: 30px;
+    cursor: pointer;
+    margin: 0px 10px;
+}
+.icon-s{
+    width: auto; 
+    height: 10px;
+    cursor: pointer;
+    margin: 0px 5px;
+}
+
+.btn{
+    padding: 10px 30px;
+    background-color: rgb(26, 0, 172);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 12px;
+}
+.btn:hover{
+    background-color: rgb(33, 0, 219);
+}
+.btn.delete{
+    background-color: rgb(170, 0, 0);
+}
+.btn.delete:hover{
+    background-color: rgb(221, 27, 27)
+}
+.btn.neutral{
+    background-color: rgb(197, 197, 197);
+    color: black;
+}
+
+.hover-animation{
+    transition: all 0.7s ease;
+}
+.hover-animation:hover{
+    transform: translateY(-2px);
+}
+
+.margin-btm-s{
+    margin-bottom: 8px;
+}
+.margin-btm-m{
+    margin-bottom: 16px;
 }

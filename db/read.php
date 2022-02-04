@@ -6,7 +6,7 @@ $mysqli = new mysqli($servername, $username, $password, $database);
 if ($mysqli->connect_error) {
     die('Connection failed: ' . $mysqli->connect_error);
 }
-$query = '
+$sql = '
 SELECT
  daten.aufstehzeit,
  daten.schlafzeit,
@@ -22,7 +22,7 @@ ORDER BY
 daten.datum DESC
 ';
 
-$result = $mysqli->query($query);
+$result = $mysqli->query($sql);
 //fetch_assoc --> wäre array
 while ($row = $result->fetch_object()){
     $user_arr[] = $row;

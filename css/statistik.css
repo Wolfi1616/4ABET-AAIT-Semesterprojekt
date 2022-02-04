@@ -22,6 +22,7 @@
     align-items: flex-end;
     background-color: rgb(49,49,49);
     margin-right: 5px;
+    position: relative;
 }
 .bar:nth-child(2n) {
     margin-right: 20px;
@@ -37,7 +38,6 @@
 
 
 table {
-    margin-top: 16px;
     width: 100%;
     border-collapse: collapse;
 }

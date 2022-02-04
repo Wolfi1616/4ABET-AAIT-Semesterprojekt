@@ -34,8 +34,7 @@
   (1, 'Lena'),
   (2, 'Isabella');
 
-  INSERT INTO `daten` (`id`, `aufstehzeit`, `schlafzeit`, `wachzeit`, `kind`, `datum`) VALUES
-  (1, 08 , 12, 4 , 1, '2022-01-26'),
-  (2, 08, 12, 4, 2, '2022-01-26');
-
+  INSERT INTO `daten` (`id`, `aufstehzeit`, `schlafzeit`, `wachzeit`, `relativeWachzeit`, `kind`, `datum`) VALUES
+  (1, '09:06:00', '12:06:00', '03:00:00', '12.50%', 2, '2022-02-04'),
+  (2, '07:06:00', '12:06:00', '05:00:00', '25.50%', 2, '2022-02-04');
   COMMIT;  
