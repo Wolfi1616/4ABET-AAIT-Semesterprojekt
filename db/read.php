@@ -26,11 +26,9 @@ kinder.name DESC
 $result = $mysqli->query($sql);
 //fetch_assoc --> wäre array
 while ($row = $result->fetch_object()){
-    $user_arr[] = $row;
-   // print_r($row);
+    $data[] = $row;
 }
-print json_encode($user_arr);
 
-//print_r($user_arr);
+print json_encode($data);
 $result->close();
 $mysqli->close();
