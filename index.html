@@ -44,9 +44,11 @@
                     <p>Das Projekt beinhaltet Daten aus der täglichen Kinderbeobachtung. Wir haben einige Wochen den Tagesrhytmus unserer Kinder beobachtet und dabei erfasst wann die Aufstehzeiten und die Schlafenszeiten sind um aus diesen Daten dann den Tagesrhytmus visuell darstellen zu können.</p>
                     <p>Mittels MySQL-Datenbank lassen sich die Daten über eine Eingabemaske <span class="link" ng-click="routerNavigation('Dateneingabe')">(Menüpunkt: Dateneingabe)</span> erfassen und aktualisieren.</p>
                     <p>Mithilfe von AngularJS werden die Daten dann ausgegeben. <span class="link" ng-click="routerNavigation('Statistik')">(Menüpunkt: Statistik)</span>. Hierfür wird ng-repeat einerseits zum erstellen einer Datentabelle benutzt, andererseits zum erstellen der Diagramme.</p>
-                    <p>Zusätzlich wurden alle CRUD-Operationen umgesetzt und zur leichteren Bedienung eine "neue" Navigationsfunktion erstellt die über die jeweiligen Attribute der Sections die Menüeinträge generiert und sich auch über die Werte der Attribute aufrufen lässt. 
+                    <p class="margin-btm-l">Zusätzlich wurden alle CRUD-Operationen umgesetzt und zur leichteren Bedienung eine "neue" Navigationsfunktion erstellt die über die jeweiligen Attribute der Sections die Menüeinträge generiert und sich auch über die Werte der Attribute aufrufen lässt. 
 
-                    <h4>Wichtigsten Funktionen</h4>
+      
+                    <h2>Mini-Dokumentation</h2>    
+                    <h3 class="margin-btm-s">Wichtigsten Funktionen</h3>
                     <code>routerNavigation(activeMenu)</code>
                     <p>Verantwortlich für die Simulierung der jeweiligen "Seiten". Ermöglicht die Navigation zwischen den Seiten!</p>
 
@@ -64,9 +66,9 @@
                     <p><strong>validate: </strong>Verantwortlich für die Validierung der Eingabefelder. Prüft ob alle Felder ausgefüllt wurden und gibt true oder false zurück. Keine weitere Validierung notwendig, da die Eingabefelder so gewählt wurden, dass keine Fehler in der Eingabe passieren können!</p>
 
                     <code>updateDataVariable()</code>
-                    <p>Wird aufgerufen bevor Daten an die Datenbank geschickt werden. Aktualisiert die variablen die an die Datenbank gesendet werden und ruft die Zeitberechnungen für die "Wachzeit" und "Relative Wachzeit" auf.</p>
+                    <p class="margin-btm-m">Wird aufgerufen bevor Daten an die Datenbank geschickt werden. Aktualisiert die variablen die an die Datenbank gesendet werden und ruft die Zeitberechnungen für die "Wachzeit" und "Relative Wachzeit" auf.</p>
 
-                    <h4>CRUD-Operationen</h4>
+                    <h3>CRUD-Operationen</h3>
                     <p>Es wurden alle 4 CRUD-Operationen mit den gleichnamigen Funktionsnamen umgesetzt. Zusätzlich wurde noch eine weitere Funktion "edit" eingebaut um eine Zwischenstufe zu update und delete zu ermöglichen (Detailansicht bevor man etwas löscht)!</p>
                     <code>read()</code>
                     <p>Ruft all Datensätze aus der Datenbank ab und sortiert sie nach Datum absteigend!</p>
